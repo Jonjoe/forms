@@ -1,0 +1,22 @@
+@import "../../../../styles/_typography.scss";
+@import "../../../../styles/_variables.scss";
+
+.SingleLineField {
+  @include default-body-text;
+
+  background: transparent;
+  box-sizing: border-box;
+  position: relative;
+  border: 2px solid $GREY6;
+  border-radius: $BORDER_RADIUS;
+  padding: $GUTTER;
+  width: 100%;
+  color: $GREY4;
+  transition: all 0.3s;
+
+  &:focus {
+    border: 2px solid $PRIMARY1;
+    color: $GREY1;
+    outline: none;
+  }
+}

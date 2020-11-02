@@ -1,0 +1,44 @@
+@import "../../../styles/_variables.scss";
+
+.FormField {
+  border: none;
+  padding: 0;
+  position: relative;
+  margin-top: $GUTTER;
+  margin-bottom: $GUTTER;
+
+  &__Input {
+    &--containsError {
+      color: $DANGER;
+      border-color: $DANGER;
+    }
+  }
+
+  &__Label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: white;
+    z-index: 999;
+    transition: all 0.3s;
+
+    &--containsError {
+      color: $DANGER;
+    }
+
+    &--containsValue {
+      top: -10px;
+    }
+  }
+
+  &:focus-within {
+    .FormField {
+      &__Label {
+        color: $PRIMARY1;
+        top: -10px;
+      }
+    }
+  }
+}
