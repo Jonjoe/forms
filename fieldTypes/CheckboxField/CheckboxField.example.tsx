@@ -3,14 +3,13 @@ import React from "react";
 import CheckboxField from "./CheckboxField.component";
 
 const Example: React.FC = (props) => {
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState("");
 
   return (
     <CheckboxField
-      onChange={() => null}
-      checked={checked}
+      onChange={(checked) => setChecked(checked)}
+      value={checked}
       htmlFor="example"
-      onCheck={(checked) => setChecked(checked)}
     />
   );
 };

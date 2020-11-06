@@ -2,7 +2,7 @@ import React from "react";
 
 import { Select } from "@app/components";
 
-import { InputProps } from "../..";
+import { InputProps } from "..";
 
 import "./SelectField.scss";
 

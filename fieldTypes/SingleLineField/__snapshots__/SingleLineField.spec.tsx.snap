@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SingleLineField renders correctly 1`] = `
+<input
+  className="SingleLineField "
+  id="text"
+  onChange={[Function]}
+  type="text"
+  value="Default input value"
+/>
+`;

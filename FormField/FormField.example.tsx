@@ -7,7 +7,6 @@ type ExampleFieldProps = {};
 const ExampleField: React.FC<ExampleFieldProps> = (): JSX.Element => {
   return (
     <FormField
-      htmlFor="examplefor"
       label="Example Label"
       validators={[]}
       options={[
@@ -16,6 +15,7 @@ const ExampleField: React.FC<ExampleFieldProps> = (): JSX.Element => {
           label: "a label",
         },
       ]}
+      onChange={() => null}
       inputType="SingleLine"
     />
   );

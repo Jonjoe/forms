@@ -41,4 +41,31 @@
       }
     }
   }
+
+  &--isCheckbox {
+    display: flex;
+
+    * {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .FormField__Label {
+      position: relative;
+      top: initial !important;
+      left: initial !important;
+      order: 2;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:focus-within {
+      .FormField__Label {
+        color: $GREY4;
+      }
+    }
+  }
 }

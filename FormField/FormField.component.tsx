@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuid } from "uuid";
 
 import { Label, Errors } from "@app/components";
 import { SelectOption } from "@app/components/core/molecules/Select/Select.component";
@@ -18,9 +19,9 @@ export type FormInput =
 export type FormFieldProps = {
   inputType: FormInput;
   label?: string;
-  htmlFor: string;
-  onChange: (value: string) => void;
+  htmlFor?: string;
   options?: SelectOption[];
+  onChange: (value: string) => void;
   validators: ValidationRule[];
 };
 
@@ -44,12 +45,16 @@ const FormField: React.FC<FormFieldProps> = (props): JSX.Element => {
   });
 
   const FieldComponent: React.FC<InputProps> = Inputs[inputType];
+  const checkboxClassname =
+    inputType === "Checkbox" ? "FormField--isCheckbox" : "";
+
+  const id = htmlFor || label || uuid();
 
   return (
-    <fieldset className={blockClassName}>
+    <fieldset className={`${blockClassName} ${checkboxClassname}`}>
       {label && (
         <Label
-          htmlFor={htmlFor}
+          htmlFor={id}
           text={label}
           className={buildLabelClassNames(
             blockClassName,
@@ -62,7 +67,7 @@ const FormField: React.FC<FormFieldProps> = (props): JSX.Element => {
 
       <FieldComponent
         value={fieldState.value}
-        htmlFor={htmlFor}
+        htmlFor={id}
         options={options}
         className={buildInputClassNames(
           blockClassName,
@@ -89,11 +94,14 @@ const FormField: React.FC<FormFieldProps> = (props): JSX.Element => {
  * @param  {boolean} containsError True if the field has an error..
  * @returns {string}
  */
-function buildInputClassNames(blockClassName: string, containsError: boolean) {
-  const labelClassName = `${blockClassName}__Input`;
+export function buildInputClassNames(
+  blockClassName: string,
+  containsError: boolean
+) {
+  const inputClassName = `${blockClassName}__Input`;
 
-  let classes = labelClassName;
-  if (containsError) classes = `${classes} ${labelClassName}--containsError`;
+  let classes = inputClassName;
+  if (containsError) classes = `${classes} ${inputClassName}--containsError`;
 
   return classes;
 }
@@ -106,7 +114,7 @@ function buildInputClassNames(blockClassName: string, containsError: boolean) {
  * @param  {boolean} isDirty True if the field has been touched.
  * @returns {string}
  */
-function buildLabelClassNames(
+export function buildLabelClassNames(
   blockClassName: string,
   containsValue: boolean,
   containsError: boolean,
@@ -115,6 +123,7 @@ function buildLabelClassNames(
   const labelClassName = `${blockClassName}__Label`;
 
   let classes = labelClassName;
+
   if (containsValue) classes = `${classes} ${labelClassName}--containsValue`;
   if (containsError) classes = `${classes} ${labelClassName}--containsError`;
   if (isDirty) classes = `${classes} ${labelClassName}--isDirty`;
@@ -128,7 +137,7 @@ function buildLabelClassNames(
  * @param  {string} value The value the validation rules will run against.
  * @returns {array}
  */
-function processValidators(
+export function processValidators(
   validators: ValidationRule[],
   value: string
 ): string[] {

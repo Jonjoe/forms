@@ -1,6 +1,6 @@
 import React from "react";
 
-import { InputProps } from "../..";
+import { InputProps } from "..";
 import "./SingleLineField.scss";
 
 /**

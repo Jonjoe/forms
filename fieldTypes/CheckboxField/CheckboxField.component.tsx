@@ -13,15 +13,22 @@ import "./CheckboxField.scss";
  */
 
 const CheckboxField: React.FC<InputProps> = (props): JSX.Element => {
-  const { className = "", children } = props;
+  const { className = "", onChange, htmlFor } = props;
+
+  const [checked, setChecked] = React.useState(false);
 
   const classNames = `CheckboxField ${className}`;
 
   return (
-    <div className={classNames}>
-      <input className="CheckboxField__Input" type="checkbox" />
-      <div className="CheckboxField__Text">{children}</div>
-    </div>
+    <input
+      className={classNames}
+      id={htmlFor}
+      onClick={() => {
+        onChange(String(!checked));
+        setChecked(!checked);
+      }}
+      type="checkbox"
+    />
   );
 };
 

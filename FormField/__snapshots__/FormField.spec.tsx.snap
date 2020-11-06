@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormField renders correctly 1`] = `
+<fieldset
+  className="blockClassName false"
+>
+  <label
+    className="Label FormField__Label"
+    htmlFor="Example Label"
+  >
+    Example Label
+  </label>
+  <input
+    className="SingleLineField FormField__Input"
+    id="Example Label"
+    onChange={[Function]}
+    value=""
+  />
+  <div />
+</fieldset>
+`;

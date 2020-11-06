@@ -9,12 +9,10 @@ import CheckboxField from "./CheckboxField/CheckboxField.component";
 
 export interface InputProps {
   className?: string;
-  value?: string;
-  checked?: boolean;
+  value: string;
   htmlFor: string;
   type?: HTMLInputType;
   options?: SelectOption[];
-  onCheck?: (checked: boolean) => void;
   onChange: (value: string) => void;
 }
 
