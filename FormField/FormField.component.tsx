@@ -5,16 +5,39 @@ import { Label, Errors } from "@app/components";
 import { SelectOption } from "@app/components/core/molecules/Select/Select.component";
 
 import { Inputs, InputProps } from "../fieldTypes";
+import { FormInput, ValidationRule } from "..";
 
-import { ValidationRule } from "..";
 import "./FormField.scss";
 
-export type FormInput =
-  | "SingleLine"
-  | "MultiLine"
-  | "Password"
-  | "Select"
-  | "Checkbox";
+type FormFieldState = {
+  id: string;
+  value: string;
+  options?: SelectOption[];
+  isDirty: boolean;
+  errors: string[];
+  Component: React.FC<InputProps>;
+};
+
+/**
+ * FormField Component
+ * 
+ * @remarks 
+ * React Component designed to render a form field and its properties.
+ * 
+ * @param label - Text description of the field.
+ * @param inputType - Choose which input to render.
+ * @param options - Optional prop to define the options of the select field.
+ * @param htmlFor - Optional prop to control the for and id.
+ * 
+ * @example
+    <FormField
+     label="Example Label"
+     validators={[]}
+     inputType="SingleLine"
+     onChange={(value: string) => null}
+   />
+ *
+ */
 
 export type FormFieldProps = {
   inputType: FormInput;
@@ -25,54 +48,46 @@ export type FormFieldProps = {
   validators: ValidationRule[];
 };
 
-/**
- * @name FormField
- *
- * [Insert omponent description]
- *
- * @returns {JSX}
- */
-
 const FormField: React.FC<FormFieldProps> = (props): JSX.Element => {
   const { inputType, label, htmlFor, validators, options, onChange } = props;
 
-  const blockClassName = "FormField";
-
-  const [fieldState, setFieldState] = React.useState({
+  const [fieldState, setFieldState] = React.useState<FormFieldState>({
+    id: htmlFor || label || uuid(),
     value: "",
     isDirty: false,
-    errors: [] as string[],
+    errors: [],
+    options: options,
+    Component: Inputs[inputType],
   });
 
-  const FieldComponent: React.FC<InputProps> = Inputs[inputType];
-  const checkboxClassname =
-    inputType === "Checkbox" ? "FormField--isCheckbox" : "";
-
-  const id = htmlFor || label || uuid();
+  const blockClassName = "FormField";
+  const fieldsetClassName = buildFieldsetClassNames(blockClassName, inputType);
+  const inputClassName = buildInputClassNames(
+    blockClassName,
+    fieldState.errors.length > 0
+  );
+  const labelClassName = buildLabelClassNames(
+    blockClassName,
+    fieldState.value.length === 0,
+    fieldState.errors.length > 0,
+    fieldState.isDirty
+  );
 
   return (
-    <fieldset className={`${blockClassName} ${checkboxClassname}`}>
+    <fieldset className={fieldsetClassName}>
       {label && (
         <Label
-          htmlFor={id}
+          htmlFor={fieldState.id}
           text={label}
-          className={buildLabelClassNames(
-            blockClassName,
-            fieldState.value.length > 0,
-            fieldState.errors.length > 0,
-            fieldState.isDirty
-          )}
+          className={labelClassName}
         />
       )}
 
-      <FieldComponent
+      <fieldState.Component
         value={fieldState.value}
-        htmlFor={id}
-        options={options}
-        className={buildInputClassNames(
-          blockClassName,
-          fieldState.errors.length > 0
-        )}
+        htmlFor={fieldState.id}
+        options={fieldState.options}
+        className={inputClassName}
         onChange={(value) => {
           onChange(value);
           setFieldState({
@@ -89,19 +104,37 @@ const FormField: React.FC<FormFieldProps> = (props): JSX.Element => {
 };
 
 /**
+ * Generate fieldset classnames
+ * @param  {string} blockClassName Component Block Classname.
+ * @param  {string} inputType True if the field has an error..
+ * @returns {string}
+ */
+export function buildFieldsetClassNames(
+  blockClassName: string,
+  inputType: FormInput
+) {
+  const className = blockClassName;
+
+  let classes = className;
+  // if (inputType === "Custom") classes = `${classes} ${className}--isCheckbox`;
+
+  return classes;
+}
+
+/**
  * Generate input classnames
  * @param  {string} blockClassName Component Block Classname.
- * @param  {boolean} containsError True if the field has an error..
+ * @param  {boolean} containsError True if the field has an error.
  * @returns {string}
  */
 export function buildInputClassNames(
   blockClassName: string,
   containsError: boolean
 ) {
-  const inputClassName = `${blockClassName}__Input`;
+  const className = `${blockClassName}__Input`;
 
-  let classes = inputClassName;
-  if (containsError) classes = `${classes} ${inputClassName}--containsError`;
+  let classes = className;
+  if (containsError) classes = `${classes} ${className}--containsError`;
 
   return classes;
 }
@@ -120,13 +153,13 @@ export function buildLabelClassNames(
   containsError: boolean,
   isDirty: boolean
 ) {
-  const labelClassName = `${blockClassName}__Label`;
+  const className = `${blockClassName}__Label`;
 
-  let classes = labelClassName;
+  let classes = className;
 
-  if (containsValue) classes = `${classes} ${labelClassName}--containsValue`;
-  if (containsError) classes = `${classes} ${labelClassName}--containsError`;
-  if (isDirty) classes = `${classes} ${labelClassName}--isDirty`;
+  if (containsValue) classes = `${classes} ${className}--containsValue`;
+  if (containsError) classes = `${classes} ${className}--containsError`;
+  if (isDirty) classes = `${classes} ${className}--isDirty`;
 
   return classes;
 }

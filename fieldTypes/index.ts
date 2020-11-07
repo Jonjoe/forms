@@ -22,4 +22,5 @@ export const Inputs = {
   Password: PasswordField,
   Select: SelectField,
   Checkbox: CheckboxField,
+  Custom: null,
 };
