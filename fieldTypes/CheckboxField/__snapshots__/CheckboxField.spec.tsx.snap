@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`CheckboxField renders correctly 1`] = `
-<input
-  className="CheckboxField "
-  onClick={[Function]}
-  type="checkbox"
-/>
-`;
