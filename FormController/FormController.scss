@@ -1,13 +1,6 @@
 @import "../../../styles/_variables.scss";
 
 .Form {
-  &__Field {
-    border: none;
-    padding: 0;
-    margin: 0;
-    margin-bottom: $GUTTER;
-  }
-
   &__SecondaryButton {
     max-width: 200px;
     margin-right: 20px;

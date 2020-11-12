@@ -2,15 +2,44 @@
 
 .CheckboxField {
   display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
   align-items: center;
 
   &__Input {
-    margin-right: $GUTTER;
+    margin: 0;
+    margin-right: $GUTTER / 2;
+
+    &--isErrored {
+      border-color: $DANGER;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__Label {
+    margin: 0;
+    position: relative;
+    top: -1px;
+
+    > .Text__Body {
+      color: $GREY2 !important;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &--isErrored {
     * {
       color: $DANGER;
     }
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }

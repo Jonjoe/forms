@@ -1,6 +1,9 @@
 import React from "react";
 
-import { SharedFieldProps } from "../";
+import { Label } from "@app/components";
+
+import { SharedFieldProps, Fieldset } from "../";
+
 import "./SingleLineField.scss";
 
 /**
@@ -14,18 +17,26 @@ import "./SingleLineField.scss";
 export const SingleLineField: React.FC<SharedFieldProps> = (
   props
 ): JSX.Element => {
-  const { className = "", value, onChange, type, htmlFor } = props;
-
-  const classNames = `SingleLineField ${className}`;
+  const { value, onChange, type, label, isErrored } = props;
 
   return (
-    <input
-      className={classNames}
-      type={type}
-      id={htmlFor}
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-    />
+    <Fieldset className="SingleLineField">
+      <Label
+        text={label}
+        className="SingleLineField__Label"
+        isErrored={isErrored}
+      />
+
+      <input
+        id={label}
+        type={type}
+        className={`SingleLineField__Input ${
+          isErrored ? "SingleLineField__Input--isErrored" : ""
+        }`}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    </Fieldset>
   );
 };
 

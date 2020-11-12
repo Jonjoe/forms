@@ -1,7 +1,8 @@
 import isRequired from "./isRequired";
 import isName from "./isName";
+import isPhoneNumber from "./isPhoneNumber";
 
-export type ValidationRuleName = "isRequired" | "isName";
+export type ValidationRuleName = "isRequired" | "isName" | "isPhoneNumber";
 
 export type RuleOutput = {
   result: boolean;
@@ -11,4 +12,5 @@ export type RuleOutput = {
 export default {
   isRequired,
   isName,
+  isPhoneNumber,
 };

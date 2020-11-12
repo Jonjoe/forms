@@ -1,11 +1,6 @@
 @import "../../../../styles/_variables.scss";
 
 .SelectField {
-  position: relative;
-  top: 2px;
-  margin: 5px 0;
-  padding: 2px 0;
-
   &--isErrored {
     * {
       color: $DANGER;

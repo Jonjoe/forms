@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SharedFieldProps } from "../";
+import { SharedFieldProps, Fieldset } from "../";
 
 import "./CheckboxField.scss";
 
@@ -13,17 +13,19 @@ import "./CheckboxField.scss";
  */
 
 const CheckboxField: React.FC<SharedFieldProps> = (props): JSX.Element => {
-  const { className = "", onChange, htmlFor, checkboxLabel } = props;
+  const { className = "", onChange, label, checkboxLabel, isErrored } = props;
 
   const [checked, setChecked] = React.useState(false);
 
   const classNames = `CheckboxField ${className}`;
 
   return (
-    <div className={classNames}>
+    <Fieldset className={classNames}>
       <input
-        className="Checkbox__Input"
-        id={htmlFor}
+        className={`CheckboxField__Input ${
+          isErrored ? "CheckboxField__Input--isErrored" : ""
+        }`}
+        id={label}
         onClick={() => {
           onChange(String(!checked));
           setChecked(!checked);
@@ -31,8 +33,10 @@ const CheckboxField: React.FC<SharedFieldProps> = (props): JSX.Element => {
         type="checkbox"
       />
 
-      {checkboxLabel}
-    </div>
+      <label className="CheckboxField__Label" htmlFor={label}>
+        {checkboxLabel}
+      </label>
+    </Fieldset>
   );
 };
 

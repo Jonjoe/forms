@@ -104,6 +104,7 @@ const ExampleField: React.FC = (): JSX.Element => {
     <Form
       fields={fields}
       onSubmit={(formState) => console.log("yay", formState)}
+      primaryButtonText="Submit"
     />
   );
 };

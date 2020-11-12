@@ -5,6 +5,6 @@ export default function isRequired(value: string): RuleOutput {
 
   return {
     result,
-    message: result ? "" : "This fill this field.",
+    message: result ? "" : "This is a required field.",
   };
 }

@@ -18,12 +18,15 @@ export type FormFieldType =
 export interface SharedFieldProps {
   className?: string;
   value: string;
-  htmlFor: string;
+  label: string;
   type?: HTMLInputType;
   options?: SelectOption[];
+  isErrored: boolean;
   checkboxLabel?: JSX.Element;
   onChange: (value: string) => void;
 }
+
+export { default as Fieldset } from "./Fieldset/Fieldset.component";
 
 export const Fields = {
   SingleLine: SingleLineField,

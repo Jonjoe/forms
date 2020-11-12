@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Select } from "@app/components";
+import { Label, Select } from "@app/components";
 
-import { SharedFieldProps } from "../";
+import { Fieldset, SharedFieldProps } from "../";
 
 import "./SelectField.scss";
 
@@ -15,14 +15,13 @@ import "./SelectField.scss";
  */
 
 const SelectField: React.FC<SharedFieldProps> = (props): JSX.Element => {
-  const { className = "", options = [], onChange } = props;
-
-  const classNames = `SelectField ${className}`;
+  const { options = [], onChange, label } = props;
 
   return (
-    <div className={classNames}>
+    <Fieldset className="SelectField">
+      <Label text={label} className="SelectField__Label" />
       <Select options={options} onChange={(newValue) => onChange(newValue)} />
-    </div>
+    </Fieldset>
   );
 };
 

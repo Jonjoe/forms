@@ -1,11 +1,13 @@
 import React from "react";
 
-import { Icon } from "@app/components";
+import { Icon, Label } from "@app/components";
 
 import { SharedFieldProps } from "../";
 import { Fields } from "../";
 
 import "./PasswordField.scss";
+import Fieldset from "../Fieldset/Fieldset.component";
+import { isError } from "lodash";
 
 /**
  * @name PasswordField
@@ -18,7 +20,7 @@ import "./PasswordField.scss";
 export const PasswordField: React.FC<SharedFieldProps> = (
   props
 ): JSX.Element => {
-  const { className = "", value = "", onChange, htmlFor } = props;
+  const { className = "", value = "", onChange, label, isErrored } = props;
 
   const [textHidden, setTextHiddden] = React.useState(true);
 
@@ -26,12 +28,21 @@ export const PasswordField: React.FC<SharedFieldProps> = (
   const classNames = `PasswordField ${valueClassName} ${className}`;
 
   return (
-    <div className={classNames}>
-      <Fields.SingleLine
+    <Fieldset className={classNames}>
+      <Label
+        text={label}
+        className="PasswordField__Label"
+        isErrored={isErrored}
+      />
+
+      <input
         type={textHidden ? "password" : "text"}
+        id={label}
+        className={`PasswordField__Input ${
+          isErrored ? "PasswordField__Input--isErrored" : ""
+        }`}
         value={value}
-        htmlFor={htmlFor}
-        onChange={(value) => onChange(value)}
+        onChange={(event) => onChange(event.target.value)}
       />
 
       <Icon
@@ -39,7 +50,7 @@ export const PasswordField: React.FC<SharedFieldProps> = (
         name={textHidden ? "eye-slash" : "eye"}
         onClick={() => setTextHiddden(!textHidden)}
       />
-    </div>
+    </Fieldset>
   );
 };
 

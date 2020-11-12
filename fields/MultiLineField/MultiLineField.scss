@@ -2,27 +2,36 @@
 @import "../../../../styles/_typography.scss";
 
 .MultiLineField {
-  @include default-body-text;
+  &__Textarea {
+    @include default-body-text;
 
-  flex: 1;
-  z-index: 700;
-  border: none;
-  background: transparent;
-  resize: none;
-  border: 2px solid $GREY6;
-  border-radius: $BORDER_RADIUS;
-  padding: $GUTTER;
+    flex: 1;
+    z-index: 700;
+    border: none;
+    background: transparent;
+    resize: none;
+    border: 2px solid $GREY6;
+    border-radius: $BORDER_RADIUS;
+    padding: $GUTTER;
 
-  background: transparent;
-  box-sizing: border-box;
-  position: relative;
-  padding: $GUTTER;
-  min-height: 150px;
-  width: 100%;
-  color: $GREY4;
-  transition: all 0.3s;
+    background: transparent;
+    box-sizing: border-box;
+    position: relative;
+    padding: $GUTTER;
+    min-height: 150px;
+    width: 100%;
+    color: $GREY4;
+    transition: all 0.3s;
 
-  &:focus {
-    outline: none;
+    &--isErrored {
+      color: $DANGER;
+      border-color: $DANGER;
+    }
+
+    &:focus {
+      border: 2px solid $PRIMARY1;
+      color: $GREY1;
+      outline: none;
+    }
   }
 }

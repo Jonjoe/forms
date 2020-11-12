@@ -1,9 +1,9 @@
 import React from "react";
 
 import { Hash } from "@app/entities";
-import { Button, Errors, Flattened, Label } from "@app/components";
+import { Button, Errors, Flattened } from "@app/components";
 
-import { Fields, FormFieldType, SharedFieldProps } from "../fields";
+import { Fields, Fieldset, FormFieldType, SharedFieldProps } from "../fields";
 import validationRules, { ValidationRuleName } from "../rules";
 
 import "./FormController.scss";
@@ -28,12 +28,21 @@ interface FormField extends FormFieldProps {
 export type FormProps = {
   fields: FormFieldProps[][];
   onSubmit: (formState: FormState) => void;
+  primaryButtonText: string;
+  secondaryButtonText?: string;
+  secondaryButtonOnClick?: () => void;
 };
 
 type FormStateDispatch = React.Dispatch<React.SetStateAction<FormState>>;
 
 const Form: React.FC<FormProps> = (props): JSX.Element => {
-  const { fields, onSubmit } = props;
+  const {
+    fields,
+    onSubmit,
+    primaryButtonText,
+    secondaryButtonText,
+    secondaryButtonOnClick,
+  } = props;
 
   const [formState, setFormState] = React.useState(flattenFields(fields));
 
@@ -45,7 +54,7 @@ const Form: React.FC<FormProps> = (props): JSX.Element => {
             if (!field.inputType || field.component) {
               return (
                 <div className="col-md" key={fieldIndex}>
-                  <fieldset className="Form__Field">{field.component}</fieldset>
+                  <Fieldset>{field.component}</Fieldset>
                 </div>
               );
             }
@@ -55,53 +64,53 @@ const Form: React.FC<FormProps> = (props): JSX.Element => {
 
             return (
               <div className="col-md" key={fieldIndex}>
-                <fieldset className="Form__Field">
-                  {fieldState.inputType !== "Checkbox" && (
-                    <Label text={fieldState.label} />
-                  )}
+                <FieldComponent
+                  isErrored={fieldState.errors.length > 0}
+                  label={fieldState.label}
+                  value={fieldState.value}
+                  options={fieldState.selectOptions}
+                  checkboxLabel={fieldState.checkboxLabel}
+                  onChange={(value) =>
+                    setFormState({
+                      ...formState,
+                      [fieldState.label]: {
+                        ...fieldState,
+                        value,
+                        errors: [
+                          ...processFieldRules({ ...fieldState, value }),
+                        ],
+                      },
+                    })
+                  }
+                />
 
-                  <FieldComponent
-                    htmlFor={fieldState.label}
-                    value={fieldState.value}
-                    options={fieldState.selectOptions}
-                    checkboxLabel={fieldState.checkboxLabel}
-                    onChange={(value) =>
-                      setFormState({
-                        ...formState,
-                        [fieldState.label]: {
-                          ...fieldState,
-                          value,
-                          errors: [
-                            ...processFieldRules({ ...fieldState, value }),
-                          ],
-                        },
-                      })
-                    }
-                  />
-
-                  <Errors errorList={fieldState.errors} />
-                </fieldset>
+                <Errors errorList={fieldState.errors} />
               </div>
             );
           })}
         </div>
       ))}
 
-      <div className="row pt-3">
+      <div className="row">
         <div className="col-md">
-          <Flattened spaced>
-            <Button
-              className="Form__SecondaryButton"
-              variant="secondary"
-              label="Else"
-              onClick={() => null}
-            />
-            <Button
-              variant="primary"
-              label="Submit"
-              onClick={() => handleSubmit(formState, setFormState, onSubmit)}
-            />
-          </Flattened>
+          <Fieldset>
+            <Flattened spaced>
+              {secondaryButtonText && secondaryButtonOnClick && (
+                <Button
+                  className="Form__SecondaryButton"
+                  variant="secondary"
+                  label={secondaryButtonText}
+                  onClick={secondaryButtonOnClick}
+                />
+              )}
+
+              <Button
+                variant="primary"
+                label={primaryButtonText}
+                onClick={() => handleSubmit(formState, setFormState, onSubmit)}
+              />
+            </Flattened>
+          </Fieldset>
         </div>
       </div>
     </form>
@@ -161,4 +170,5 @@ function flattenFields(fields: FormProps["fields"]): FormState {
 
   return fieldsHash;
 }
+
 export default Form;
